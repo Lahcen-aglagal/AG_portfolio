@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 
 class Profile(models.Model):
-    user = models.OneToOneField (User , on_delete = models.CASCADE)
+    user = models.OneToOneField (User , on_delete = models.CASCADE ,default=0)
     image = models.ImageField('Image' , upload_to= 'image/' , default= 'image/default_profile.png')
     STAT_CHOICES = (
         ('married', 'Married'),
@@ -33,6 +33,7 @@ class Profile(models.Model):
         return str(self.user)
 
 class About(models.Model):
+    user = models.OneToOneField (User , on_delete = models.CASCADE ,default=0 )
     title = models.CharField('Title', max_length=100)
     description = models.TextField('Description', max_length=1000, blank=True, null=True)
     resume = models.FileField('Resume', upload_to='media/', blank=True, null=True)
@@ -40,6 +41,7 @@ class About(models.Model):
         return self.title
     
 class Skill(models.Model):
+    user = models.OneToOneField (User , on_delete = models.CASCADE ,default=0)
     title = models.CharField(max_length=100, verbose_name='Skill Name' ,null=True)
     description = models.TextField(verbose_name='Description', blank=True, null=True)
     proficiency_choices = (
@@ -53,14 +55,14 @@ class Skill(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return str(self.title)
     
 class ProfessionalExperience(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
     title = models.CharField('Job Title', max_length=100 ,null=True)
     company = models.CharField('Company', max_length=100 ,null=True)
     location = models.CharField('Location', max_length=100 ,null=True)
-    start_date = models.DateField('Start Date')
+    start_date = models.DateField('Start Date' , null = True)
     end_date = models.DateField('End Date', null=True, blank=True)
     description = models.TextField('Description', max_length=1000 ,null=True)
 
@@ -68,7 +70,7 @@ class ProfessionalExperience(models.Model):
         return self.title
     
 class Education(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
     degree = models.CharField('Degree', max_length=100 ,null=True)
     institution = models.CharField('Institution', max_length=100 ,null=True)
     location = models.CharField('Location', max_length=100 ,null=True)
@@ -80,7 +82,7 @@ class Education(models.Model):
         return self.degree
 
 class Project(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
     title = models.CharField('Project Title', max_length=100,null = True)
     description = models.TextField('Description', max_length=1000,null = True)
     technologies = models.CharField('Technologies Used', max_length=200,null = True)
@@ -93,7 +95,7 @@ class Project(models.Model):
 
 
 class Service(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
     title = models.CharField('Service Title', max_length=100, null=True)
     description = models.TextField('Description', max_length=1000, null=True)
     price = models.DecimalField('Price', max_digits=8, decimal_places=2,null=True)
@@ -107,7 +109,7 @@ class Facts(models.Model):
         return self.title
 
 class Contact(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE ,default=0)
     email = models.EmailField('Email', max_length=100)
     phone = models.CharField('Phone', max_length=20, blank=True, null=True)
     address = models.CharField('Address', max_length=200, blank=True, null=True)

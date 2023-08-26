@@ -1,6 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Profile
+from .models import Profile , About , Contact ,Education ,Facts ,Project ,Service , Skill
 
 admin.site.register(Profile)
+admin.site.register(About)
+admin.site.register(Contact)
+admin.site.register(Education)
+admin.site.register(Facts)
+admin.site.register(Project)
+admin.site.register(Service)
+admin.site.register(Skill)
