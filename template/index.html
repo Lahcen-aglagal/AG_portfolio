@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>MyResume Bootstrap Template - Index</title>
+  <title>{{title}}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   {% include 'stylesheet&scripts/stylesheet.html' %}
@@ -25,32 +25,31 @@
   <section id="hero" class="d-flex flex-column justify-content-center">
     
     <div class="container" data-aos="zoom-in" data-aos-delay="100">
-      <h1>Lahcen Aglagal</h1>
+      <h1>{{ user.first_name }} {{ user.last_name }}</h1>
       <p>I'm <span class="typed" data-typed-items="Web Developer, Django Developer , Junior Python Developer,Data and IT Technician "></span></p>
       <div class="social-links">
-        <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-        <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        <a href="{{sociallinks.twitter}}" class="twitter"><i class="bx bxl-twitter"></i></a>
+        <a href="{{sociallinks.facebook}}" class="facebook"><i class="bx bxl-facebook"></i></a>
+        <a href="{{sociallinks.instagram}}" class="instagram"><i class="bx bxl-instagram"></i></a>
+        <a href="{{sociallinks.linkedin}}" class="google-plus"><i class="bx bxl-linkedin"></i></a>
+        <a href="{{sociallinks.github}}" class="linkedin"><i class="bx bxl-github"></i></a>
       </div>
     </div>
   </section><!-- End Hero -->
 
   <main id="main">
-
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
 
         <div class="section-title">
           <h2>About</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>{{about.description}}</p>
         </div>
 
         <div class="row">
           <div class="col-lg-4">
-            <img src="{% static 'image/profile_lahcen.jpg' %}" class="img-fluid" alt="">
+            <img src="{{profile.image.url}}" class="img-fluid" alt="">
           </div>
           <div class="col-lg-8 pt-4 pt-lg-0 content">
             <h3>UI/UX Designer &amp; Web Developer.</h3>

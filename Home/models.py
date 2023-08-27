@@ -7,7 +7,7 @@ import re
 
 class Profile(models.Model):
     user = models.OneToOneField (User , on_delete = models.CASCADE ,default=0)
-    image = models.ImageField('Image' , upload_to= 'image/' , default= 'image/default_profile.png')
+    image = models.ImageField('Image' , upload_to= 'profile_image/' , default= 'image/default_profile.png')
     STAT_CHOICES = (
         ('married', 'Married'),
         ('single', 'Single'),
@@ -29,7 +29,6 @@ class Profile(models.Model):
     city = models.CharField('City', max_length=100,null=True)
     degree = models.CharField('Degree',max_length=20,choices=DEGREE_CHOICES,null=True)
 
-
     def __str__(self):
         return str(self.user)
 
@@ -40,26 +39,7 @@ class About(models.Model):
     resume = models.FileField('Resume', upload_to='media/', blank=True, null=True)
     def __str__(self):
         return str(self.title)
-    
-class Skill(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
-    title = models.CharField(max_length=100, verbose_name='Skill Name', null=True)
-    proficiency_choices = (
-        ('beginner', 'Beginner'),
-        ('intermediate', 'Intermediate'),
-        ('advanced', 'Advanced'),
-        ('expert', 'Expert'),
-    )
-    proficiency = models.CharField(max_length=20, choices=proficiency_choices, default='beginner', null=True)
-    percent = models.PositiveIntegerField(verbose_name='Proficiency Percentage', default=0, help_text='Enter a value between 0 and 100', null=True)
-
-    def __str__(self):
-        return self.title
-
-
-    def __str__(self):
-        return str(self.title)
-    
+            
 class ProfessionalExperience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,default=0)
     title = models.CharField('Job Title', max_length=100 ,null=True)
@@ -144,6 +124,32 @@ class Contact(models.Model):
     def __str__(self):
         return self.user.username + "'s Contact Info"
     
+class sociallinks(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE ,default=0)
+    facebook = models.URLField('Facebook URL', blank=True, null=True)
+    twitter = models.URLField('Twitter URL', blank=True, null=True)
+    linkedin = models.URLField('LinkedIn URL', blank=True, null=True)
+    github = models.URLField('GitHub URL', blank=True, null=True)
+    instagram = models.URLField('Instagram URL', blank=True, null=True)
+    
+    def __str__(self):
+        return self.user.username + "'s Social Links"
+    
+proficiency_choices = (
+    ('beginner', 'Beginner'),
+    ('intermediate', 'Intermediate'),
+    ('advanced', 'Advanced'),
+    ('expert', 'Expert'),
+)
+class Skill(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE ,default=0)
+    title = models.CharField('Skill Title', max_length=100,blank=True, null=True)
+    percent = models.PositiveIntegerField('Proficiency Percentage',blank=True, default=0, help_text='Enter a value between 0 and 100', null=True)
+    proficiency = models.CharField(max_length=20, choices=proficiency_choices,blank=True, default='beginner', null=True)
+
+    def __str__(self):
+        return self.user.username+" skills"
+
 @receiver(post_save , sender = User)
 def create_user_profile(sender , instance  , created , **kwargs):
     if created :
