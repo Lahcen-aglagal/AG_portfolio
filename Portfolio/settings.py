@@ -86,7 +86,7 @@ WSGI_APPLICATION = "Portfolio.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Portfolio',  # Replace with your actual database name
+        'NAME': 'resume_data',  # Replace with your actual database name
         'USER': 'root',      # Replace with your MySQL username
         'PASSWORD': 'lahsen',  # Replace with your MySQL password
         'HOST': 'localhost',          # Replace with your MySQL host

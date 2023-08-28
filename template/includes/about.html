@@ -1,0 +1,45 @@
+<div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>About</h2>
+      <p>{{about.description}}</p>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="bg-image hover-zoom">
+          <img src=".{{profile.image.url}}" class="img-fluid rounded-7 w-100" />
+        </div>
+        {% comment %} <img  class="" alt=""> {% endcomment %}
+      </div>
+      <div class="col-lg-8 pt-4 pt-lg-0 content">
+        <h3>{{myposition.title}}</h3>
+        <p class="fst-italic">
+          {% comment %} Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. {% endcomment %}
+        </p>
+        <div class="row">
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <strong>Birthday:</strong> <span>{{profile.birth_date}}</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span></span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>{{profile.phone}}</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>{{profile.city}}</span></li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>{{age}}</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>{{profile.degree}}</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>PhEmailone:</strong> <span>{{user.email}}</span></li>
+              <li><i class="bi bi-chevron-right"></i> <strong>civility:</strong> <span>{{profile.status}}</span></li>
+            </ul>
+          </div>
+        </div>
+        <p>
+          {{profile.description}}
+        </p>
+      </div>
+    </div>
+
+  </div>

@@ -28,12 +28,19 @@ class Profile(models.Model):
     birth_date = models.DateField('Birth date', auto_now_add=False,null=True)
     city = models.CharField('City', max_length=100,null=True)
     degree = models.CharField('Degree',max_length=20,choices=DEGREE_CHOICES,null=True)
+    description = models.TextField('Description', max_length=1000, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
-
+class typedItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=0)
+    title = models.CharField('Title', max_length=100)
+    def __str__(self):
+        return str(self.title)    
 class About(models.Model):
     user = models.OneToOneField (User , on_delete = models.CASCADE ,default=0 )
+    introduction = models.TextField('Introduction skills', max_length=1000, blank=True, null=True)
+    sumary = models.TextField('Sumary', max_length=1000, blank=True, null=True)
     title = models.CharField('Title', max_length=100)
     description = models.TextField('Description', max_length=1000, blank=True, null=True)
     resume = models.FileField('Resume', upload_to='media/', blank=True, null=True)
@@ -50,7 +57,7 @@ class ProfessionalExperience(models.Model):
     description = models.TextField('Description', max_length=1000 ,null=True)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
     
 class Education(models.Model):
     DEGREE_CHOICES = (
@@ -70,7 +77,7 @@ class Education(models.Model):
     description = models.TextField('Description', max_length=1000 ,null=True)
 
     def __str__(self):
-        return self.degree
+        return str(self.degree)
     
 
 class Project(models.Model):
@@ -82,7 +89,7 @@ class Project(models.Model):
     demo_url = models.URLField('Demo URL', blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 def sanitize_filename(filename):
     return re.sub(r'[\/:*?"<>|]', '', filename)
@@ -107,7 +114,7 @@ class Service(models.Model):
     price = models.DecimalField('Price', max_digits=8, decimal_places=2,null=True)
     
     def __str__(self):
-        return self.title
+        return str(self.title)
 
 class Facts(models.Model):
     description = models.TextField('Description', max_length=1000, blank=True, null=True)
@@ -142,13 +149,13 @@ proficiency_choices = (
     ('expert', 'Expert'),
 )
 class Skill(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE ,default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
     title = models.CharField('Skill Title', max_length=100,blank=True, null=True)
     percent = models.PositiveIntegerField('Proficiency Percentage',blank=True, default=0, help_text='Enter a value between 0 and 100', null=True)
     proficiency = models.CharField(max_length=20, choices=proficiency_choices,blank=True, default='beginner', null=True)
 
     def __str__(self):
-        return self.user.username+" skills"
+        return self.title + " "+str(self.percent) + '%' + ' ' + self.proficiency
 
 @receiver(post_save , sender = User)
 def create_user_profile(sender , instance  , created , **kwargs):
@@ -172,8 +179,5 @@ def create_user_profile(sender , instance  , created , **kwargs):
             user = instance
         )
         Service.objects.create(
-            user = instance
-        )
-        Facts.objects.create(
             user = instance
         )
