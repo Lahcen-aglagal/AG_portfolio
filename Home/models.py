@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import  os 
+import os 
 import re
 
 class Profile(models.Model):
@@ -79,7 +79,17 @@ class Education(models.Model):
     def __str__(self):
         return str(self.degree)
     
-
+def sanitize_filename(filename):
+    return re.sub(r'[\/:*?"<>|]', '', filename)
+def image_upload_path(instance, filename):
+    title = instance.project.title
+    sanitized_title = sanitize_filename(title)
+    directory_path = os.path.join(sanitized_title, filename)
+    return directory_path
+class Category(models.Model):
+    title = models.CharField('Category Title', max_length=100)
+    def __str__(self):
+        return self.title
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     title = models.CharField('Project Title', max_length=100, null=True)
@@ -87,25 +97,16 @@ class Project(models.Model):
     technologies = models.CharField('Technologies Used', max_length=200, null=True)
     github_url = models.URLField('GitHub URL', blank=True, null=True)
     demo_url = models.URLField('Demo URL', blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return str(self.title)
-
-def sanitize_filename(filename):
-    return re.sub(r'[\/:*?"<>|]', '', filename)
-
-def image_upload_path(instance, filename):
-    title = instance.project.title
-    sanitized_title = sanitize_filename(title)
-    directory_path = os.path.join(sanitized_title, filename)
-    return directory_path
-
 class ProjectImage(models.Model):
     project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='images')  # Add related_name here
     image = models.ImageField('Image', upload_to=image_upload_path)
-
     def __str__(self):
         return self.project.title + ' Image'
+
 
 class Service(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE ,default=0)
