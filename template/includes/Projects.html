@@ -27,8 +27,10 @@
                         <h4>{{ project.title }}</h4>
                         <p>{{ project.category.title }}</p>
                         <div class="portfolio-links">
-                            <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                  <a href="portfolio-details.html" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details"><i class="bx bx-link"></i></a>
+                            {% comment %} <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a> {% endcomment %}
+                            <a href="{% url 'Home:project_detail' pk=project.id %}" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
+                                <i class="bx bx-link"></i>
+                              </a>
                         </div>
                     </div>
                 </div>

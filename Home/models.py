@@ -79,17 +79,27 @@ class Education(models.Model):
     def __str__(self):
         return str(self.degree)
     
-def sanitize_filename(filename):
-    return re.sub(r'[\/:*?"<>|]', '', filename)
-def image_upload_path(instance, filename):
-    title = instance.project.title
-    sanitized_title = sanitize_filename(title)
-    directory_path = os.path.join(sanitized_title, filename)
-    return directory_path
+
 class Category(models.Model):
     title = models.CharField('Category Title', max_length=100)
     def __str__(self):
         return self.title
+    
+def sanitize_filename(filename):
+    return re.sub(r'[\/:*?"<>|]', '', filename)
+
+def image_upload_path(instance, filename):
+    project_title = instance.project.title
+    sanitized_project = sanitize_filename(project_title)
+    directory_path = os.path.join(sanitized_project, filename)
+    return directory_path
+
+class Category(models.Model):
+    title = models.CharField('Category Title', max_length=100)
+
+    def __str__(self):
+        return self.title
+
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     title = models.CharField('Project Title', max_length=100, null=True)
@@ -98,14 +108,22 @@ class Project(models.Model):
     github_url = models.URLField('GitHub URL', blank=True, null=True)
     demo_url = models.URLField('Demo URL', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
+    primary_image = models.ForeignKey('ProjectImage', on_delete=models.SET_NULL, null=True, blank=True, related_name='primary_for')
 
     def __str__(self):
         return str(self.title)
+
 class ProjectImage(models.Model):
-    project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='images')  # Add related_name here
-    image = models.ImageField('Image', upload_to=image_upload_path)
+    stat = (
+        ('primary', 'Primary'), 
+        ('secondary', 'Secondary')
+    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='images' ,  null=True)
+    title = models.CharField('Image Title', max_length=100, null=True ,choices=stat , default='secondary')
+    image = models.ImageField('Image', upload_to=image_upload_path , null=True)
+
     def __str__(self):
-        return self.project.title + ' Image'
+        return f"{self.title} - {self.project.title}"
 
 
 class Service(models.Model):

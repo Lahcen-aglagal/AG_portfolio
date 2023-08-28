@@ -6,6 +6,7 @@ from .models import *
 from .models import Profile,typedItem,About,ProfessionalExperience,Education,Facts,Project,ProjectImage,Service,Skill,sociallinks,Contact,Category
 # Create your views here.
 from datetime import date
+from django.shortcuts import render, get_object_or_404
 
 def M_Profile(request): 
     user = User.objects.first()
@@ -16,6 +17,14 @@ def M_Profile(request):
     }
     return render(request, 'Base/footer.html', context)
 
+def project_detail(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    ImgProj = ProjectImage.objects.filter(project=project)
+    context  = {
+        'project': project ,
+        'projectimages': ImgProj
+        }
+    return render(request, 'includes/portfolio-details.html', context)
 
 class HomeTemplateView(TemplateView):
     template_name = 'index.html'
