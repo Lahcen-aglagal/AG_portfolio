@@ -44,7 +44,7 @@ class ProjectDetailView(View):
             return JsonResponse(response_data)
         
         return JsonResponse({'error': 'Project not found'}, status=404)
-    
+
 
 class HomeTemplateView(TemplateView):
     template_name = 'index.html'
@@ -89,3 +89,6 @@ class HomeTemplateView(TemplateView):
         context['age'] = age
         return context
     
+def contact(request):
+    print(request)
+    pass

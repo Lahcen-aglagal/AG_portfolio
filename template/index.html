@@ -46,9 +46,10 @@
     </section><!-- End About Section -->
 
     <!-- ======= Facts Section ======= -->
-    <section id="facts" class="facts">
+    {% comment %} <section id="facts" class="facts">
       {% include 'includes/facts.html' %}
-    </section><!-- End Facts Section -->
+    </section> {% endcomment %}
+    <!-- End Facts Section -->
 
     <!-- ======= Skills Section ======= -->
     <section id="skills" class="skills section-bg">
@@ -59,9 +60,16 @@
     <section id="resume" class="resume">
       {% include 'includes/resume.html' %}
     </section><!-- End Resume Section -->
+    
+    <!-- ======= project Section ======= -->
     <section id="portfolio" class="portfolio section-bg">
       {% include 'includes/Projects.html' %}
     </section><!-- End Portfolio Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      {% include 'includes/contact.html' %}
+    </section><!-- End Contact Section -->
   </main>
   <!-- ======= Footer ======= -->
     <footer id="footer">
