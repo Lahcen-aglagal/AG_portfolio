@@ -4,8 +4,8 @@ from django.views.generic import TemplateView
 from django.contrib.auth.models import User 
 from .models import *
 from .models import Profile,typedItem,About,ProfessionalExperience,Education,Facts,Project,ProjectImage,Service,Skill,sociallinks,Contact,Category
-# Create your views here.
 from datetime import date
+from django.views import View
 from django.shortcuts import render, get_object_or_404
 
 def M_Profile(request): 
@@ -17,21 +17,41 @@ def M_Profile(request):
     }
     return render(request, 'Base/footer.html', context)
 
-def project_detail(request, pk):
-    project = get_object_or_404(Project, pk=pk)
-    ImgProj = ProjectImage.objects.filter(project=project)
-    context  = {
-        'project': project ,
-        'projectimages': ImgProj
-        }
-    return render(request, 'includes/portfolio-details.html', context)
+class ProjectDetailView(View):
+    def get(self, request, *args, **kwargs):
+        project_id = kwargs.get('pk')
+        
+        if project_id:
+            project = get_object_or_404(Project, pk=project_id)
+            project_images = ProjectImage.objects.filter(project=project)
+            
+            serialized_project = {
+                'title': project.title,
+                'category': project.category.title,
+                'description': project.description,
+                'technologies': project.technologies,
+                'github_url': project.github_url,
+                'demo_url': project.demo_url,
+            }
+            
+            serialized_project_images = [image.image.url for image in project_images]
+            
+            response_data = {
+                'project': serialized_project,
+                'project_images': serialized_project_images,
+            }
+            
+            return JsonResponse(response_data)
+        
+        return JsonResponse({'error': 'Project not found'}, status=404)
+    
 
 class HomeTemplateView(TemplateView):
     template_name = 'index.html'
     # override get context date method
     def get_context_data(self, **kwargs):
         
-        context = super().get_context_data(**kwargs)  # first, call super get context data
+        context = super().get_context_data(**kwargs)
         context['title'] = "Portfolio LAHCEN AGLAGAL"
 
         context['user'] = User.objects.first()
@@ -52,7 +72,7 @@ class HomeTemplateView(TemplateView):
 
         context['projects'] = Project.objects.all()
         context['categories'] = Category.objects.all()
-        # context['projectimage'] = ProjectImage.objects.first(proje=context['project'])
+        context['project_images'] = ProjectImage.objects.all()        
 
         skills = Skill.objects.filter(user=context['user'])
         num_skills = len(skills)

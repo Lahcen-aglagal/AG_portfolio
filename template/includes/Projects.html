@@ -26,15 +26,68 @@
                     <div class="portfolio-info">
                         <h4>{{ project.title }}</h4>
                         <p>{{ project.category.title }}</p>
+
                         <div class="portfolio-links">
-                            {% comment %} <a href="assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a> {% endcomment %}
-                            <a href="{% url 'Home:project_detail' pk=project.id %}" class="portfolio-details-lightbox" data-glightbox="type: external" title="Portfolio Details">
-                                <i class="bx bx-link"></i>
-                              </a>
-                        </div>
+
+                            <a href="#  " class="project-details-lightbox"  
+                                title="Portfolio Details"
+                              data-project-id="{{ project.id }}" 
+                              data-bs-toggle="modal"
+                                data-bs-target="#projectModal"
+                            ><i class="bx bx-link"  ></i></a>
+
+                            {% if project.github_url %}
+                                <a href="{{ project.github_url }}" title="Github"><i class="bx bxl-github"></i></a>
+                            {% endif %}
+                            {% if project.demo_url %}
+                                <a href="{{ project.demo_url }}" title="Demo"><i class="bx bx-link-external"></i></a>
+                            {% endif %}
+                          </div>                          
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
 </div>
+<!-- ======= end Portfolio Section ======= --> 
+<script>
+    $(document).ready(function(){
+        $('.project-details-lightbox').click(function(){
+            var pk = $(this).data('project-id');
+            $.ajax({
+                type: "GET",
+                url: "Profile/Details/" + pk + "/",
+                dataType: "json",
+                success: function(data){
+                    if (data){
+                        var projectdata = data.project;
+                        var swiperWrapper = $('.swiper-wrapper');
+    
+                        swiperWrapper.empty(); // Clear previous images
+    
+                        for (var i = 0; i < data.project_images.length; i++){
+                            swiperWrapper.append(
+                                '<div class="swiper-slide"><img src=".' + data.project_images[i] + '" class="img-fluid" alt=""></div>'
+                            );
+                        }
+                        $('.modal-title').html(data.project.title);
+
+                        $('#project-category').html(data.project.category);
+                        $('#project-technologies').html(data.project.technologies);
+                        $('#project-github').attr('href', data.project.github_url);
+                        $('#project-demo').attr('href',data.project.demo_url);
+                        $('#project-github').html(data.project.github_url);
+                        $('#project-demo').html(data.project.demo_url);
+
+                        $('#project-description').html(data.project.description);
+                        
+                        $('#projectModal').modal('show');
+                }//end success
+                
+            }
+        });
+        });
+    });
+</script>
+
+
