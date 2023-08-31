@@ -84,16 +84,16 @@ WSGI_APPLICATION = "Portfolio.wsgi.application"
 #     }
 # }
 # DATABASE_URL = "mysql -hcontainers-us-west-125.railway.app -uroot -pnXND0tsY4hNfFB48ntRP --port 5634 --protocol=TCP railway"
-DATABASES = {
-    'default':{
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'resume_data',
-        'USER': 'root',     
-        'PASSWORD': 'lahsen',
-        'HOST': 'localhost', 
-        'PORT': '3308',  
-    }
-}
+# DATABASES = {
+#     'default':{
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'resume_data',
+#         'USER': 'root',     
+#         'PASSWORD': 'lahsen',
+#         'HOST': 'localhost', 
+#         'PORT': '3308',  
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
