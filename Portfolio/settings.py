@@ -83,17 +83,26 @@ WSGI_APPLICATION = "Portfolio.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
-DATABASE_URL = "mysql -hcontainers-us-west-125.railway.app -uroot -pnXND0tsY4hNfFB48ntRP --port 5634 --protocol=TCP railway"
+# DATABASE_URL = "mysql -hcontainers-us-west-125.railway.app -uroot -pnXND0tsY4hNfFB48ntRP --port 5634 --protocol=TCP railway"
 DATABASES = {
-    'default': dj_database_url.config(default= DATABASE_URL , conn_max_age=1800) 
-    # {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'resume_data',  # Replace with your actual database name
-    #     'USER': 'root',      # Replace with your MySQL username
-    #     'PASSWORD': 'lahsen',  # Replace with your MySQL password
-    #     'HOST': 'localhost',          # Replace with your MySQL host
-    #     'PORT': '3308',               # Replace with your MySQL port
-    # }
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'resume_data',
+        'USER': 'root',     
+        'PASSWORD': 'lahsen',
+        'HOST': 'localhost', 
+        'PORT': '3308',  
+    }
+}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('MYSQLDATABASE'),
+        'USER': os.environ.get('MYSQLUSER'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+        'HOST': os.environ.get('MYSQLHOST'),
+        'PORT': os.environ.get('MYSQLPORT'),
+    }
 }
 
 # Password validation
